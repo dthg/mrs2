@@ -36,9 +36,8 @@ if ( NOT Boost_FOUND )
 endif()
 
 # include for local directory
-include_directories( include )
 include_directories( ${MY_SOURCE_DIR}/src )
-file (GLOB HEADERS include/*.h)
+file (GLOB HEADERS src/*.h)
 
 # include for local package
 
@@ -51,11 +50,11 @@ add_executable( BSP_Tree  hyperplane.cpp ${HEADERS} )
 # Random number generation testing
 
 # Define all the binary space files
-add_library( bsp.o STATIC src/bsp.cpp include/DensityTree/bsp.hpp)
+add_library( bsp.o STATIC src/bsp.cpp src/DensityTree/bsp.hpp)
 target_link_libraries( BSP_Tree bsp.o )
 
 # General utilities for dealing with cgal points
-add_library( PointUtils.o STATIC include/DensityTree/PointUtils.hpp src/PointUtils.cpp)
+add_library( PointUtils.o STATIC src/DensityTree/PointUtils.hpp src/PointUtils.cpp)
 target_link_libraries( BSP_Tree PointUtils.o)
 
 add_to_cached_list( CGAL_EXECUTABLE_TARGETS BSP_Tree )
