@@ -27,8 +27,10 @@
 void BSP_node::generate_hyperplane(std::vector<Point *> points) {
   // Assume points is a vector of length d, containing the points
   // defining the splitting hyperplane
-  std::vector<Point> sample = sample_N_points(points, points[0]->dimension());
-  Point orientation = sample[0];
+
+  // TODO: Add documentation here explaining this
+  std::vector<Point> sample = sample_d(points, points[0]->dimension());
+  Point orientation = sample[0]; // TODO:: Pick some canonical orientation.
 
   hyperplane = Plane::Hyperplane_d(sample.begin(), sample.end(), orientation, CGAL::ON_ORIENTED_BOUNDARY);
 }

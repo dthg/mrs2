@@ -44,6 +44,6 @@ Point randNormPoint(
 
 int uni_rng(int num_points);
 
-std::vector<Point> sample_N_points(std::vector<Point *> points, int n);
-std::vector<Point> sample_N_points(std::vector<Point> points, int n);
+std::vector<Point> sample_d(std::vector<Point *> points, int n);
+std::vector<Point> sample_d(std::vector<Point> points, int n);
 
