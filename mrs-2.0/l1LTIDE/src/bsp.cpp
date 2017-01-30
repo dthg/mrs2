@@ -24,7 +24,6 @@
 
 #include "DensityTree/bsp.hpp"
 
-
 void BSP_node::generate_hyperplane(std::vector<Point *> points) {
   // Assume points is a vector of length d, containing the points
   // defining the splitting hyperplane
@@ -34,9 +33,8 @@ void BSP_node::generate_hyperplane(std::vector<Point *> points) {
   hyperplane = Plane::Hyperplane_d(sample.begin(), sample.end(), orientation, CGAL::ON_ORIENTED_BOUNDARY);
 }
 
-
 void BSP_node::print_tree(int max_depth, int indent_level) {
-  if (  (hyperplane.dimension() == 2)) {
+  if ((hyperplane.dimension() == 2)) {
     std::cout << hyperplane << std::endl;
   }
 
@@ -47,7 +45,6 @@ void BSP_node::print_tree(int max_depth, int indent_level) {
     right->print_tree(max_depth, indent_level);
   }
 }
-
 
 int BSP_node::Max_Num() {
   // Returns the count of the leaf node containing the most number of points.
@@ -63,7 +60,6 @@ int BSP_node::Max_Num() {
 
   return static_cast<int>(enclosed_points.size());
 }
-
 
 int BSP_node::Min_Num() {
   // Returns the count of the leaf node containing the most number of points.
@@ -94,16 +90,14 @@ std::tuple<BSP_node *, BSP_node *> BSP_node::split() {
   left->enclosed_points.reserve(num_points / 2 + 1);
   right->enclosed_points.reserve(num_points / 2 + 1);
 
-  for (auto&& point: enclosed_points) {
+  for (auto &&point: enclosed_points) {
     if (hyperplane.has_on_negative_side(*point)) {
       left->enclosed_points.push_back(point);
       left->num_points += 1;
-    }
-    else if (hyperplane.has_on_positive_side(*point)) {
+    } else if (hyperplane.has_on_positive_side(*point)) {
       right->enclosed_points.push_back(point);
       right->num_points += 1;
-    }
-    else {
+    } else {
       // Point falls on hyper plane
       // TODO: Deal with this case properly
 //      std::cerr << "Point lies on hyperplane. P: " << *point << std::endl;

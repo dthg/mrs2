@@ -28,6 +28,6 @@
 #include <CGAL/Kernel_d/Hyperplane_d.h>
 #include <CGAL/point_generators_d.h>
 
-typedef CGAL::Cartesian_d<double>                           Kd;
-typedef Kd::Point_d                                         Point;
-typedef Kd::Hyperplane_d                                    Plane;
+typedef CGAL::Cartesian_d<double> Kd;
+typedef Kd::Point_d Point;
+typedef Kd::Hyperplane_d Plane;

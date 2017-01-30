@@ -32,15 +32,15 @@ enum class GeneratorType {
   Normal
 };
 
-
 std::vector<Point> randNorm(unsigned int dim, size_t num_points, double mean = 0.0, double stddev = 1.0);
 std::vector<Point> randUnif(int dim, int num_points);
 
 std::vector<Point> randPoints(int dim, int num_points, GeneratorType gen = GeneratorType::Uniform);
 
-Point randNormPoint(int dim,
-                    std::normal_distribution<double> &dist,
-                    std::mt19937_64 &mt);
+Point randNormPoint(
+    int dim,
+    std::normal_distribution<double> &dist,
+    std::mt19937_64 &mt);
 
 int uni_rng(int num_points);
 

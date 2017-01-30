@@ -30,7 +30,6 @@ std::vector<Point> randUnif(int dim, int num_points) {
   std::vector<Point> points;
   points.reserve(num_points);
 
-
   for (int i = 0; i < num_points; i++) {
     points.push_back(*gen++);
   }
@@ -39,10 +38,10 @@ std::vector<Point> randUnif(int dim, int num_points) {
 
 }
 
-
-Point randNormPoint(unsigned int dim,
-                    std::normal_distribution<double> &dist,
-                    std::mt19937_64 &mt) {
+Point randNormPoint(
+    unsigned int dim,
+    std::normal_distribution<double> &dist,
+    std::mt19937_64 &mt) {
   // Return a d-dimensional point with co-ordinates normally distributed
   std::vector<double> coords;
   coords.reserve(dim);
@@ -50,11 +49,8 @@ Point randNormPoint(unsigned int dim,
     coords.push_back(dist(mt));
   }
 
-  // Construct from iterator
-  // TODO: Use custom iterator? If this is a bottleneck
   return Point(dim, coords.begin(), coords.end());
 }
-
 
 std::vector<Point> randNorm(unsigned int dim, size_t num_points, double mean, double stddev) {
   std::vector<Point> points;
@@ -78,17 +74,14 @@ std::vector<Point> randPoints(int dim, int num_points, GeneratorType gen) {
   std::vector<Point> points;
 
   switch (gen) {
-    case GeneratorType::Uniform:
-      points = randUnif(dim, num_points);
+    case GeneratorType::Uniform:points = randUnif(dim, num_points);
       break;
-    case GeneratorType::Normal:
-      points = randNorm(dim, num_points);
+    case GeneratorType::Normal:points = randNorm(dim, num_points);
       break; // Default to mean = 0, stddev = 1
   }
   return points;
 
 }
-
 
 // Temporary create object that wraps this to avoid creating a new device on every
 // call. Probably make a rng class
@@ -99,7 +92,6 @@ int uni_rng(int num_points) {
 
   return uni(rng);
 }
-
 
 std::vector<Point> sample_N_points(std::vector<Point *> points, int n) {
   std::vector<Point> sample;
@@ -114,7 +106,6 @@ std::vector<Point> sample_N_points(std::vector<Point *> points, int n) {
 
 }
 
-
 std::vector<Point> sample_N_points(std::vector<Point> points, int n) {
   std::vector<Point> sample;
   sample.reserve(n);
@@ -123,7 +114,6 @@ std::vector<Point> sample_N_points(std::vector<Point> points, int n) {
     int index = uni_rng(points.size());
     sample.push_back(points[index]);
   }
-
 
   return sample;
 }

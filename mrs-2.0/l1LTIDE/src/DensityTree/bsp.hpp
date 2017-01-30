@@ -29,13 +29,10 @@
 #include "DensityTree/CGALTypeDefs.hpp"
 #include "DensityTree/PointUtils.hpp"
 
-
 class BSP_node {
-
 
  private:
   void generate_hyperplane(std::vector<Point *> points);
-
 
  public:
   BSP_node *left = nullptr;
@@ -51,12 +48,11 @@ class BSP_node {
   int Max_Num();
   int Min_Num();
 
-  BSP_node() { };
+  BSP_node() {};
 
   BSP_node(Plane h) {
     hyperplane = h;
   }
-
 
   BSP_node(std::vector<Point *> points) {
     // Defines the depth of the tree
@@ -67,11 +63,9 @@ class BSP_node {
 
   void print_tree(int max_depth, int indent_level);
 
-
   std::tuple<BSP_node *, BSP_node *> split();
 
 };
-
 
 class BSP_Tree {
  private:
@@ -82,8 +76,8 @@ class BSP_Tree {
 
     BSP_node *current_node = &root;
 
-    auto comparator = [](BSP_node* l, BSP_node* r) { return l->num_points < r->num_points;};
-    std::priority_queue<BSP_node*, std::vector<BSP_node*>, decltype(comparator) > node_queue(comparator);
+    auto comparator = [](BSP_node *l, BSP_node *r) { return l->num_points < r->num_points; };
+    std::priority_queue<BSP_node *, std::vector<BSP_node *>, decltype(comparator)> node_queue(comparator);
 
     // Continue to split until largest node has less than specified number of points
     while (current_node->num_points > min_points) {
