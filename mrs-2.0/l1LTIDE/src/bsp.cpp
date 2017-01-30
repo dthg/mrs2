@@ -35,21 +35,24 @@ void BSP_node::generate_hyperplane(std::vector<Point *> points) {
   hyperplane = Plane::Hyperplane_d(sample.begin(), sample.end(), orientation, CGAL::ON_ORIENTED_BOUNDARY);
 }
 
-void BSP_node::print_tree(int max_depth, int indent_level) {
-  if ((hyperplane.dimension() == 2)) {
-    std::cout << hyperplane << std::endl;
+void BSP_node::print_tree(int depth, int indent_level) {
+  if (depth == 0) { return; }
+  if ((hyperplane.dimension() == 2 || hyperplane.dimension() == 1)) {
+    std::cout << std::setw(4 * (indent_level - 1)) << "[" << hyperplane << "]" << std::endl;
   }
 
   if (left != nullptr) {
-    left->print_tree(max_depth, indent_level);
+    left->print_tree(depth - 1, indent_level + 1);
   }
   if (right != nullptr) {
-    right->print_tree(max_depth, indent_level);
+    right->print_tree(depth - 1, indent_level + 1);
   }
 }
 
+// TODO: Refactor and pull create functions for BSP statistics
 int BSP_node::Max_Num() {
   // Returns the count of the leaf node containing the most number of points.
+  // TODO: Should this be recursive? => Make iterative to deal with large numbers of points
   if (left && right) {
     return std::max(left->Max_Num(), right->Max_Num());
   }
@@ -79,18 +82,24 @@ int BSP_node::Min_Num() {
 
 }
 
+/**
+ * Generates a splitting hyperplane that subdivides a region into left and right regions.
+ *
+ * @return (left, right) subregions of the original node
+ */
 std::tuple<BSP_node *, BSP_node *> BSP_node::split() {
 
   // Generate splitting hyperplane
-  generate_hyperplane(enclosed_points);
+  this->generate_hyperplane(enclosed_points);
 
   // Group points into left and right sides of plane
   left = new BSP_node();
   right = new BSP_node();
 
-  // Reserve memory for points
-  left->enclosed_points.reserve(num_points / 2 + 1);
-  right->enclosed_points.reserve(num_points / 2 + 1);
+  // Reserve memory for points, assumes that at most num_points / 2 points in each region
+  unsigned long half_points = static_cast<unsigned long>( (num_points / 2) + 1);
+  left->enclosed_points.reserve(half_points);
+  right->enclosed_points.reserve(half_points);
 
   for (auto &&point: enclosed_points) {
     if (hyperplane.has_on_negative_side(*point)) {
