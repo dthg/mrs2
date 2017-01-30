@@ -28,15 +28,12 @@ void test_bsp_tree(int dim, int num_points) {
 
   std::chrono::duration<double> delta_t = end - start;
 
-  std::cout << std::endl;
   tree.root.print_tree(4, 1);
   int max_count = tree.root.Max_Num();
   int min_count = tree.root.Min_Num();
   double ratio = static_cast<double> (max_count) / static_cast<double> (min_count);
-  std::cout << "Generated " << num_points << " in " << delta_t.count() << "s\n";
-  std::cout << "Max count: " << max_count << std::endl;
-  std::cout << "Min count: " << min_count << std::endl;
-  std::cout << "Ratio: " << ratio << std::endl;
+  std::cout << "Generated " << num_points << " points in " << delta_t.count() << "s\n"
+    "{ max: " << max_count << ", min: " << min_count << ", ratio: " << ratio << "}\n";
 }
 
 int main(int argc, char *argv[]) {
