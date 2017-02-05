@@ -45,9 +45,9 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 
 # Creating entries for target: BSP_Tree
 # ############################
-MESSAGE("Headers are:" ${HEADERS} ${CMAKE_SOURCE_DIR})
+MESSAGE("Headers are:" ${HEADERS} ${PROJECT_SOURCE_DIR})
 
-add_executable(BSP_Tree hyperplane.cpp ${HEADERS})
+add_executable(BSP_Tree hyperplane.cpp ${HEADERS} src/VolumeCalculator.cpp src/VolumeCalculator.h)
 
 
 # Define all the binary space files
@@ -57,6 +57,9 @@ target_link_libraries(BSP_Tree bsp.o)
 # General utilities for dealing with cgal points
 add_library(PointUtils.o STATIC src/DensityTree/PointUtils.hpp src/PointUtils.cpp)
 target_link_libraries(BSP_Tree PointUtils.o)
+
+add_library(VolumeUtils STATIC ${HEADERS} ${PROJECT_SOURCE_DIR}/src/VolumeCalculator.cpp ${PROJECT_SOURCE_DIR}/src/VolumeCalculator.h)
+target_link_libraries(VolumeUtils ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} bsp.o)
 
 add_to_cached_list(CGAL_EXECUTABLE_TARGETS BSP_Tree)
 
@@ -100,3 +103,7 @@ set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 add_executable(point_generation ${TEST_DIR}/PointGenerationTest.cpp ${PROJECT_SOURCE_DIR}/src/DensityTree/PointUtils.hpp)
 target_link_libraries(point_generation gtest gmock_main PointUtils.o)
 add_test(NAME point_generation_test COMMAND point_generation)
+
+add_executable(volume_calculation ${TEST_DIR}/VolumeCalculationTests.cpp ${PROJECT_SOURCE_DIR}/src/VolumeCalculator.h ${PROJECT_SOURCE_DIR}/src/DensityTree/PointUtils.hpp)
+target_link_libraries(volume_calculation gtest gmock_main VolumeUtils ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} PointUtils.o)
+add_test(NAME volume_calculation_test COMMAND volume_generation)
